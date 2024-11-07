@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ley de Ohm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .button {
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: rgba(59, 130, 246, 0.8);
+        }
+
+        input[type="number"] {
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        input[type="number"]::placeholder {
+            color: #666;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient text-white py-8">
+    <div class="container mx-auto px-4">
+        <header class="mb-8 text-center">
+            <h1 id="title" class="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                Calculadora de Ley de Ohm
+            </h1>
+            <h2 class="text-xl font-semibold mb-4 text-white">CONSULTORIA EN INGENIERIA Y EFICIENCIA ENERGETICA</h2>
+            <div class="flex justify-center items-center mb-4">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Fotografia%20Minor-4051DQMxdMZeQa4dPSd6soUkfPNPag.png" alt="Consultor de Ingeniería" class="w-20 h-20 rounded-full object-cover">
+            </div>
+            <button id="toggleLanguage" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mb-4 flex items-center justify-center mx-auto">
+                <span id="languageButtonText">Presione para cambiar idioma</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </header>
+
+        <div id="calculator" class="w-full max-w-2xl mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6">
+            <h2 id="subtitle" class="text-2xl font-semibold mb-4 text-center text-white">Ley de Ohm y Fórmulas de Potencia</h2>
+            <div class="flex justify-center mb-6">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Circulo%20ley%20de%20Ohm-iwqfFzT9fIie4uIKGPxplVzpcnQHcA.jpg" alt="Círculo de la Ley de Ohm" class="w-64 h-64 rounded-full">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="magnitude1" id="labelMagnitude1" class="block text-sm font-medium text-gray-200">Primera Magnitud</label>
+                    <select id="magnitude1" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900">
+                    </select>
+                </div>
+                <div>
+                    <label for="value1" id="labelValue1" class="block text-sm font-medium text-gray-200">Valor</label>
+                    <input type="number" id="value1" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" placeholder="Ingrese el valor">
+                </div>
+                <div>
+                    <label for="magnitude2" id="labelMagnitude2" class="block text-sm font-medium text-gray-200">Segunda Magnitud</label>
+                    <select id="magnitude2" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900">
+                    </select>
+                </div>
+                <div>
+                    <label for="value2" id="labelValue2" class="block text-sm font-medium text-gray-200">Valor</label>
+                    <input type="number" id="value2" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" placeholder="Ingrese el valor">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="targetMagnitude" id="labelTargetMagnitude" class="block text-sm font-medium text-gray-200">Magnitud a Calcular</label>
+                <select id="targetMagnitude" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900">
+                </select>
+            </div>
+            <div class="flex justify-between">
+                <button id="reset" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Reiniciar
+                </button>
+                <button id="calculate" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Calcular
+                </button>
+            </div>
+        </div>
+
+        <div id="result" class="w-full max-w-2xl mx-auto bg-white/10 backdrop-blur-md rounded-lg shadow-lg p-6 mt-8 hidden">
+            <h2 id="resultTitle" class="text-2xl font-semibold mb-4 text-center text-white">Resultado del Cálculo</h2>
+            <div class="flex justify-center mb-6">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Circulo%20ley%20de%20Ohm-iwqfFzT9fIie4uIKGPxplVzpcnQHcA.jpg" alt="Círculo de la Ley de Ohm" class="w-64 h-64 rounded-full">
+            </div>
+            <div id="resultContent" class="text-center">
+                <!-- El resultado se insertará aquí -->
+            </div>
+            <div class="flex justify-center mt-6">
+                <button id="backToCalculator" class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Volver a la Calculadora
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            es: {
+                title: "Calculadora de Ley de Ohm",
+                subtitle: "Ley de Ohm y Fórmulas de Potencia",
+                firstMagnitude: "Primera Magnitud",
+                secondMagnitude: "Segunda Magnitud",
+                value: "Valor",
+                magnitudeToCalculate: "Magnitud a Calcular",
+                calculate: "Calcular",
+                reset: "Reiniciar",
+                calculationResult: "Resultado del Cálculo",
+                formulaUsed: "Fórmula utilizada",
+                backToCalculator: "Volver a la Calculadora",
+                enterValue: "Ingrese el valor",
+                switchLanguageButton: "Presione para cambiar a inglés",
+                voltage: "Voltaje (V)",
+                current: "Corriente (I)",
+                resistance: "Resistencia (R)",
+                power: "Potencia (P)"
+            },
+            en: {
+                title: "Ohm's Law Calculator",
+                subtitle: "Ohm's Law and Power Formulas",
+                firstMagnitude: "First Magnitude",
+                secondMagnitude: "Second Magnitude",
+                value: "Value",
+                magnitudeToCalculate: "Magnitude to Calculate",
+                calculate: "Calculate",
+                reset: "Reset",
+                calculationResult: "Calculation Result",
+                formulaUsed: "Formula used",
+                backToCalculator: "Back to Calculator",
+                enterValue: "Enter value",
+                switchLanguageButton: "Press to switch to Spanish",
+                voltage: "Voltage (V)",
+                current: "Current (I)",
+                resistance: "Resistance (R)",
+                power: "Power (P)"
+            }
+        };
+
+        let currentLanguage = 'es';
+
+        const magnitudes = ['voltage', 'current', 'resistance', 'power'];
+
+        const formulas = {
+            voltage: {
+                current: { resistance: 'V = I × R', power: 'V = P / I' },
+                resistance: { power: 'V = √(P × R)' },
+                power: { current: 'V = P / I', resistance: 'V = √(P × R)' }
+            },
+            current: {
+                voltage: { resistance: 'I = V / R', power: 'I = P / V' },
+                resistance: { power: 'I = √(P / R)' },
+                power: { voltage: 'I = P / V', resistance: 'I = √(P / R)' }
+            },
+            resistance: {
+                voltage: { current: 'R = V / I', power: 'R = V² / P' },
+                current: { power: 'R = P / I²' },
+                power: { voltage: 'R = V² / P', current: 'R = P / I²' }
+            },
+            power: {
+                voltage: { current: 'P = V × I', resistance: 'P = V² / R' },
+                current: { resistance: 'P = I² × R' },
+                resistance: { voltage: 'P = V² / R', current: 'P = I² × R' }
+            }
+        };
+
+        function updateLanguage() {
+            const t = translations[currentLanguage];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('labelMagnitude1').textContent = t.firstMagnitude;
+            document.getElementById('labelMagnitude2').textContent = t.secondMagnitude;
+            document.getElementById('labelValue1').textContent = t.value;
+            document.getElementById('labelValue2').textContent = t.value;
+            document.getElementById('labelTargetMagnitude').textContent = t.magnitudeToCalculate;
+            document.getElementById('calculate').textContent = t.calculate;
+            document.getElementById('reset').textContent = t.reset;
+            document.getElementById('resultTitle').textContent = t.calculationResult;
+            document.getElementById('backToCalculator').textContent = t.backToCalculator;
+            document.getElementById('languageButtonText').textContent = t.switchLanguageButton;
+
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '';
+                magnitudes.forEach(magnitude => {
+                    const option = document.createElement('option');
+                    option.value = magnitude;
+                    option.textContent = t[magnitude];
+                    select.appendChild(option);
+                });
+                select.value = currentValue;
+            });
+
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.placeholder = t.enterValue;
+            });
+        }
+
+        document.getElementById('toggleLanguage').addEventListener('click', function() {
+            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+            updateLanguage();
+        });
+
+        function calculateResult(magnitude1, value1, magnitude2, value2, targetMagnitude) {
+            let result;
+            const formula = formulas[targetMagnitude][magnitude1]?.[magnitude2] || formulas[targetMagnitude][magnitude2]?.[magnitude1];
+
+            if (!formula) {
+                throw new Error('Combinación de magnitudes no válida');
+            }
+
+            switch (formula) {
+                case 'V = I × R': result = value1 * value2; break;
+                case 'V = P / I': result = value1 / value2; break;
+                case 'V = √(P × R)': result = Math.sqrt(value1 * value2); break;
+                case 'I = V / R': result = value1 / value2; break;
+                case 'I = P / V': result = value1 / value2; break;
+                case 'I = √(P / R)': result = Math.sqrt(value1 / value2); break;
+                case 'R = V / I': result = value1 / value2; break;
+                case 'R = V² / P': result = 
+
+ Math.pow(value1, 2) / value2; break;
+                case 'R = P / I²': result = value1 / Math.pow(value2, 2); break;
+                case 'P = V × I': result = value1 * value2; break;
+                case 'P = V² / R': result = Math.pow(value1, 2) / value2; break;
+                case 'P = I² × R': result = Math.pow(value1, 2) * value2; break;
+                default: throw new Error('Fórmula no encontrada');
+            }
+
+            return { result, formula };
+        }
+
+        document.getElementById('calculate').addEventListener('click', function() {
+            const magnitude1 = document.getElementById('magnitude1').value;
+            const value1 = parseFloat(document.getElementById('value1').value);
+            const magnitude2 = document.getElementById('magnitude2').value;
+            const value2 = parseFloat(document.getElementById('value2').value);
+            const targetMagnitude = document.getElementById('targetMagnitude').value;
+
+            if (isNaN(value1) || isNaN(value2)) {
+                alert('Por favor, ingrese valores numéricos válidos.');
+                return;
+            }
+
+            try {
+                const { result, formula } = calculateResult(magnitude1, value1, magnitude2, value2, targetMagnitude);
+                const t = translations[currentLanguage];
+                const resultHTML = `
+                    <p class="text-2xl font-bold mb-2">${result.toFixed(2)} ${targetMagnitude === 'voltage' ? 'V' : targetMagnitude === 'current' ? 'A' : targetMagnitude === 'resistance' ? 'Ω' : 'W'}</p>
+                    <p class="text-lg">${t.formulaUsed}: ${formula}</p>
+                `;
+                document.getElementById('resultContent').innerHTML = resultHTML;
+                document.getElementById('calculator').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        document.getElementById('reset').addEventListener('click', function() {
+            document.getElementById('magnitude1').value = 'voltage';
+            document.getElementById('magnitude2').value = 'current';
+            document.getElementById('value1').value = '';
+            document.getElementById('value2').value = '';
+            document.getElementById('targetMagnitude').value = 'resistance';
+        });
+
+        document.getElementById('backToCalculator').addEventListener('click', function() {
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('calculator').classList.remove('hidden');
+        });
+
+        // Inicializar los desplegables y el idioma
+        updateLanguage();
+    </script>
+</body>
+</html>
